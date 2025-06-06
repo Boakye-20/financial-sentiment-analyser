@@ -3,7 +3,7 @@
 Financial & SaaS News Sentiment Analyser
 Tracks sentiment for stocks and SaaS companies
 Author: Paul Kwarteng
-Date: 07-06-25 2024
+Date: 2024
 """
 
 import feedparser
@@ -336,9 +336,11 @@ class NewsSentimentAnalyser:
         fig.suptitle('Financial & SaaS News Sentiment Analysis Dashboard', 
                     fontsize=24, fontweight='bold', y=0.98)
         
-        # Add timestamp
+        # Add timestamp and author
         timestamp_text = f'Generated: {datetime.now().strftime("%d %B %Y at %H:%M GMT")}'
         fig.text(0.99, 0.01, timestamp_text, ha='right', fontsize=10, style='italic')
+        fig.text(0.01, 0.01, 'Created by: Paul Kwarteng | github.com/Boakye-20', 
+                 ha='left', fontsize=10, style='italic', color='#555555')
         
         # Save
         if save_path:

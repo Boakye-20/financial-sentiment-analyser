@@ -207,9 +207,11 @@ def create_full_demo():
     
     ax7.set_title('Comprehensive Analysis Summary - All 20 Entities', fontweight='bold', fontsize=16, pad=20)
     
-    # Timestamp
+    # Timestamp and author
     fig.text(0.99, 0.01, f'Generated: {datetime.now().strftime("%d %B %Y at %H:%M GMT")}', 
             ha='right', fontsize=10, style='italic')
+    fig.text(0.01, 0.01, 'Created by: Paul Kwarteng | github.com/Boakye-20', 
+             ha='left', fontsize=10, style='italic', color='#555555')
     
     # Save
     plt.tight_layout()
