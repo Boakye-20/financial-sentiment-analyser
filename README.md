@@ -24,11 +24,15 @@ A sophisticated Python application that analyses real-time news sentiment for fi
 - **Price Correlation**: Compares sentiment with actual stock price movements
 - **Professional Dashboard**: 8-panel visualisation with publication-ready output
 
-### 📊 Sample Output
+## 📊 Sample Output
 
+### Live Analysis Results
 ![Full Dashboard](examples/dashboard.png)
+*Actual sentiment analysis run showing real-time market sentiment*
 
-*Real-time sentiment analysis of 20 major stocks and SaaS companies*
+### Complete Coverage Demo (All 20 Entities)
+![All 20 Entities Demo](examples/full_demo_dashboard_all20.png)
+*Demonstration showing the full scope: 10 stocks + 10 SaaS companies tracked*
 
 ### Dashboard Components:
 - Overall market sentiment gauge
