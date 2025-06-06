@@ -1,0 +1,34 @@
+{
+  "demo_type": "full_coverage",
+  "entities_tracked": {
+    "stocks": [
+      "AAPL",
+      "MSFT",
+      "GOOGL",
+      "NVDA",
+      "JPM",
+      "BAC",
+      "GS",
+      "HSBA.L",
+      "BP.L",
+      "AZN.L"
+    ],
+    "saas": [
+      "CRM",
+      "SNOW",
+      "TEAM",
+      "ZM",
+      "DDOG",
+      "SHOP",
+      "SQ",
+      "PLTR",
+      "COIN",
+      "SPOT"
+    ],
+    "total": 20
+  },
+  "articles_analysed": 487,
+  "news_sources": 8,
+  "processing_time_minutes": 7.3,
+  "timestamp": "2025-06-07T00:30:00.982117"
+}
