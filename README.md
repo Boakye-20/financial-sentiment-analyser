@@ -264,7 +264,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## ⚡ Performance
 
-- Analysis time: ~7-8 minutes for 20 entities
+- Analysis time: ~5-7 minutes for 20 entities
 - API rate limits respected (1-second delays)
 - Typical output: 200-500 news articles analysed
 - Dashboard resolution: 300 DPI (publication quality)
