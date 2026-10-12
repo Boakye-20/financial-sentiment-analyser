@@ -1,305 +1,132 @@
-# Financial & SaaS News Sentiment Analyser 📰📊
+# Financial & SaaS News Sentiment Analyser
 
-A sophisticated Python application that analyses real-time news sentiment for financial stocks and SaaS companies, providing actionable insights through comprehensive visualisations.
+Reads the latest news for 20 companies — 10 financial stocks and 10 SaaS/tech
+companies — scores the sentiment of each article, and renders an eight-panel
+dashboard comparing sentiment against actual share price moves.
 
-![Python](https://img.shields.io/badge/python-v3.8+-blue.svg)
-![License](https://img.shields.io/badge/license-MIT-green.svg)
-![Matplotlib](https://img.shields.io/badge/matplotlib-3.7+-orange.svg)
-![VS Code](https://img.shields.io/badge/VS%20Code-1.74+-007ACC.svg)
+![Dashboard](examples/dashboard.png)
 
-## 🚀 Features
+## Running it
 
-- **Real-time News Analysis**: Fetches latest news from multiple RSS feeds
-- **Dual-Sector Coverage**: 
-  - 10 Financial stocks (US tech, US banks, UK companies)
-  - 10 SaaS/Tech companies (established and high-growth)
-- **Advanced Sentiment Analysis**:
-  - VADER (Valence Aware Dictionary and sEntiment Reasoner)
-  - TextBlob sentiment polarity
-  - Combined scoring algorithm
-  - Sentiment categorisation (Very Positive to Very Negative)
-- **Multi-Source Aggregation**:
-  - Financial: Yahoo Finance, Reuters, MarketWatch, Financial Times
-  - Tech/SaaS: TechCrunch, The Verge, Hacker News, VentureBeat
-- **Price Correlation**: Compares sentiment with actual stock price movements
-- **Professional Dashboard**: 8-panel visualisation with publication-ready output
+You need Python 3.8+ and an internet connection.
 
-## 📊 Sample Output
-
-### Live Analysis Results
-![Full Dashboard](examples/dashboard.png)
-*Actual sentiment analysis run showing real-time market sentiment*
-
-### Complete Coverage Demo (All 20 Entities)
-![All 20 Entities Demo](examples/full_demo_dashboard_all20.png)
-*Demonstration showing the full scope: 10 stocks + 10 SaaS companies tracked*
-
-### Dashboard Components:
-- Overall market sentiment gauge
-- Stock sentiment heatmap
-- SaaS company sentiment scores
-- Top sentiment movers
-- Price vs sentiment correlation
-- News volume by source
-- Sentiment distribution histogram
-- Key insights summary table
-
-## 🛠️ Development Setup
-
-### Prerequisites
-- Python 3.8 or higher
-- Visual Studio Code (recommended IDE)
-- Internet connection for fetching news and stock data
-
-### VS Code Extensions (Recommended)
-- Python (Microsoft)
-- Pylance
-- GitLens
-- Python Docstring Generator
-
-### Installation
-
-1. Clone the repository:
 ```bash
 git clone https://github.com/Boakye-20/financial-sentiment-analyser.git
 cd financial-sentiment-analyser
-```
 
-2. Open in VS Code:
-```bash
-code .
-```
-
-3. Create virtual environment:
-```bash
 python -m venv venv
-```
+source venv/bin/activate          # Windows: venv\Scripts\activate
 
-4. Activate virtual environment:
-```bash
-# Windows
-venv\Scripts\activate
-
-# Mac/Linux
-source venv/bin/activate
-```
-
-5. Install required packages:
-```bash
 pip install -r requirements.txt
 python -m textblob.download_corpora
 ```
 
-## 💻 Usage
+Then run it:
 
-Basic usage (analyses all 20 entities):
 ```bash
-python sentiment_analyzer.py
+python sentiment_analyser.py
 ```
 
-Run test suite:
+A full run takes a few minutes — it fetches news for all 20 entities and waits a
+second between calls to respect rate limits. It writes two files into the current
+directory:
+
+- `sentiment_dashboard_<timestamp>.png` — the dashboard, at 300 DPI
+- `sentiment_results_<timestamp>.json` — the raw scores
+
+To try it on something smaller first:
+
 ```bash
-python test_analyzer.py
+python test_analyser.py
 ```
 
-Test options:
-- `1` - Test sentiment analysis only
-- `2` - Test single entity analysis
-- `3` - Quick analysis (mini dashboard)
-- `4` - Run all tests
+That offers four options: sentiment analysis only, a single entity, a quick
+mini-dashboard, or all tests.
 
-### Output Files
-- `sentiment_dashboard_[timestamp].png` - Visual dashboard
-- `sentiment_results_[timestamp].json` - Raw data for further analysis
+`create_full_demo.py` generates the all-20 demo dashboard below.
 
-## 📋 Requirements
+![All 20 entities](examples/full_demo_dashboard_all20.png)
 
-```txt
-feedparser==6.0.10
-pandas==2.0.3
-numpy==1.24.3
-matplotlib==3.7.2
-seaborn==0.12.2
-textblob==0.17.1
-vaderSentiment==3.3.2
-yfinance==0.2.28
-beautifulsoup4==4.12.2
-requests==2.31.0
-lxml==4.9.3
+## What's on the dashboard
+
+Overall market sentiment gauge · stock sentiment heatmap · SaaS sentiment scores ·
+top movers · price vs sentiment correlation · news volume by source · sentiment
+distribution · key insights table.
+
+## How sentiment is scored
+
+Two analysers run on each headline and are blended:
+
+```
+combined = (VADER × 0.6) + (TextBlob × 0.4)
 ```
 
-## 🔧 Configuration
+VADER is lexicon and rule-based; TextBlob is trained. The combined score is then
+bucketed:
 
-### Current Coverage (20 Entities)
+| Score | Category |
+| --- | --- |
+| above 0.3 | Very positive |
+| 0.1 to 0.3 | Positive |
+| −0.1 to 0.1 | Neutral |
+| −0.3 to −0.1 | Negative |
+| below −0.3 | Very negative |
 
-**Financial Stocks (10):**
-- **US Tech Giants (4):**
-  - AAPL - Apple Inc.
-  - MSFT - Microsoft Corporation
-  - GOOGL - Alphabet Inc. (Google)
-  - NVDA - NVIDIA Corporation
-  
-- **US Financial (3):**
-  - JPM - JPMorgan Chase & Co.
-  - BAC - Bank of America Corporation
-  - GS - Goldman Sachs Group Inc.
-  
-- **UK Stocks (3):**
-  - HSBA.L - HSBC Holdings plc
-  - BP.L - BP plc (British Petroleum)
-  - AZN.L - AstraZeneca plc
+Share prices come from `yfinance`, so sentiment can be set against what the stock
+actually did.
 
-**SaaS/Tech Companies (10):**
-- **Core SaaS (5):**
-  - CRM - Salesforce Inc.
-  - SNOW - Snowflake Inc.
-  - TEAM - Atlassian Corporation
-  - ZM - Zoom Video Communications
-  - DDOG - Datadog Inc.
-  
-- **High-Growth Tech (5):**
-  - SHOP - Shopify Inc.
-  - SQ - Block Inc. (formerly Square)
-  - PLTR - Palantir Technologies
-  - COIN - Coinbase Global Inc.
-  - SPOT - Spotify Technology
+## Coverage
 
-## 📈 Technical Details
+**Financial (10)**
 
-### Sentiment Analysis Methodology
+| Group | Tickers |
+| --- | --- |
+| US tech | AAPL, MSFT, GOOGL, NVDA |
+| US financial | JPM, BAC, GS |
+| UK | HSBA.L, BP.L, AZN.L |
 
-- **VADER Sentiment**: Lexicon and rule-based sentiment analysis tool
-- **TextBlob**: Machine learning-based sentiment polarity (-1 to 1)
-- **Combined Score**: Weighted average (60% VADER, 40% TextBlob)
-- **Categorisation**:
-  - Very Positive: > 0.3
-  - Positive: 0.1 to 0.3
-  - Neutral: -0.1 to 0.1
-  - Negative: -0.3 to -0.1
-  - Very Negative: < -0.3
+**SaaS and tech (10)**
 
-### News Sources
+| Group | Tickers |
+| --- | --- |
+| Core SaaS | CRM, SNOW, TEAM, ZM, DDOG |
+| High-growth | SHOP, SQ, PLTR, COIN, SPOT |
 
-**Financial Feeds:**
-- Yahoo Finance
-- Reuters Business
-- MarketWatch
-- Financial Times
+Edit `config.py` to change the lists.
 
-**Tech/SaaS Feeds:**
-- TechCrunch
-- The Verge
-- Hacker News
-- VentureBeat
+## News sources
 
-## 🚀 Development
+Financial feeds: Yahoo Finance, Reuters Business, MarketWatch, Financial Times.
+Tech feeds: TechCrunch, The Verge, Hacker News, VentureBeat. All read as RSS via
+`feedparser`.
 
-### Built With
-- **IDE**: Visual Studio Code
-- **Language**: Python 3.8+
-- **Version Control**: Git & GitHub
-- **Key Libraries**: 
-  - matplotlib (visualisation)
-  - pandas (data manipulation)
-  - yfinance (stock data)
-  - VADER & TextBlob (sentiment analysis)
-  - feedparser (RSS parsing)
+## Project layout
 
-### Project Structure
 ```
-sentiment-analyser/
-├── sentiment_analyzer.py    # Main application
-├── test_analyzer.py         # Test suite
-├── config.py               # Configuration file
-├── README.md               # Documentation
-├── requirements.txt        # Python dependencies
-├── .gitignore             # Git ignore file
-└── output/                # Generated dashboards (created on run)
+sentiment_analyser.py   Main application
+test_analyser.py        Test suite
+create_full_demo.py     Generates the all-20 demo dashboard
+config.py               Entity lists and feed configuration
+examples/               Sample output
 ```
 
-## 🤝 Contributing
+## If something goes wrong
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+**`No module named 'textblob'`** — run `pip install textblob` then
+`python -m textblob.download_corpora`.
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+**PowerShell blocks the venv activation script** — use Command Prompt instead, or
+run `Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser`.
 
-### Development Guidelines
-- Use VS Code for consistency
-- Follow PEP 8 style guide
-- Add docstrings to new functions
-- Test with multiple entities before submitting PR
-- Use British English spelling in code and documentation
+**Empty results** — check your internet connection, and bear in mind some
+entities genuinely have no recent news.
 
-## 📄 License
+## Notes
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+British English spelling is used throughout the code and docs. Note the file is
+`sentiment_analyser.py`, with an "s".
 
-## 👨‍💻 Authors
+## Licence
 
-**Paul Kwarteng**
-
-- LinkedIn: [Paul Kwarteng](https://www.linkedin.com/in/paul-kwarteng-22a71b196/)
-- GitHub: [@Boakye-20](https://github.com/Boakye-20)
-
-
-## 🎯 Use Cases
-
-### For Finance Professionals:
-- Track market sentiment before major trades
-- Identify sentiment shifts in specific sectors
-- Monitor competitor perception
-
-### For SaaS/Tech Professionals:
-- Track industry sentiment trends
-- Monitor competitor news coverage
-- Identify market opportunities
-
-### For Data Scientists:
-- Demonstrate NLP capabilities
-- Show data visualisation skills
-- Prove ability to work with financial APIs
-
-## ⚡ Performance
-
-- Analysis time: ~5-7 minutes for 20 entities
-- API rate limits respected (1-second delays)
-- Typical output: 200-500 news articles analysed
-- Dashboard resolution: 300 DPI (publication quality)
-
-## 🐛 Troubleshooting
-
-### Common Issues:
-
-**"No module named 'textblob'"**
-```bash
-pip install textblob
-python -m textblob.download_corpora
-```
-
-**PowerShell Script Error**
-- Use Command Prompt instead of PowerShell, or
-- Run: `Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser`
-
-**Empty sentiment results**
-- Check internet connection
-- Verify RSS feeds are accessible
-- Some entities may have no recent news
-
-## 🔮 Future Enhancements
-
-- [ ] Add email/Slack alerts for major sentiment shifts
-- [ ] Implement Redis caching for faster performance
-- [ ] Add machine learning for sentiment prediction
-- [ ] Create web interface with Flask/Django
-- [ ] Add cryptocurrency tracking
-- [ ] Implement backtesting for sentiment-price correlation
-- [ ] Support for custom entity lists via CLI
-- [ ] Historical sentiment tracking database
-
----
-
-⭐ If you find this project useful, please consider giving it a star!
+MIT. Author: Paul Kwarteng ([@Boakye-20](https://github.com/Boakye-20) ·
+[LinkedIn](https://www.linkedin.com/in/paul-kwarteng-22a71b196/)).
