@@ -128,5 +128,5 @@ British English spelling is used throughout the code and docs. Note the file is
 
 ## Licence
 
-MIT. Author: Paul Kwarteng ([@Boakye-20](https://github.com/Boakye-20) ·
-[LinkedIn](https://www.linkedin.com/in/paul-kwarteng-22a71b196/)).
+MIT. Author:  ([@Boakye-20](https://github.com/Boakye-20) ·
+
