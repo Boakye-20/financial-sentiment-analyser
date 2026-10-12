@@ -1,7 +1,7 @@
 # Financial & SaaS News Sentiment Analyser
 
-Reads the latest news for 20 companies — 10 financial stocks and 10 SaaS/tech
-companies — scores the sentiment of each article, and renders an eight-panel
+Reads the latest news for 20 companies (10 financial stocks and 10 SaaS/tech
+companies), scores the sentiment of each article, and renders an eight-panel
 dashboard comparing sentiment against actual share price moves.
 
 ![Dashboard](examples/dashboard.png)
@@ -27,12 +27,12 @@ Then run it:
 python sentiment_analyser.py
 ```
 
-A full run takes a few minutes — it fetches news for all 20 entities and waits a
+A full run takes a few minutes: it fetches news for all 20 entities and waits a
 second between calls to respect rate limits. It writes two files into the current
 directory:
 
-- `sentiment_dashboard_<timestamp>.png` — the dashboard, at 300 DPI
-- `sentiment_results_<timestamp>.json` — the raw scores
+- `sentiment_dashboard_<timestamp>.png`: the dashboard, at 300 DPI
+- `sentiment_results_<timestamp>.json`: the raw scores
 
 To try it on something smaller first:
 
@@ -112,13 +112,13 @@ examples/               Sample output
 
 ## If something goes wrong
 
-**`No module named 'textblob'`** — run `pip install textblob` then
+**`No module named 'textblob'`**: run `pip install textblob` then
 `python -m textblob.download_corpora`.
 
-**PowerShell blocks the venv activation script** — use Command Prompt instead, or
+**PowerShell blocks the venv activation script**: use Command Prompt instead, or
 run `Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser`.
 
-**Empty results** — check your internet connection, and bear in mind some
+**Empty results**: check your internet connection, and bear in mind some
 entities genuinely have no recent news.
 
 ## Notes
